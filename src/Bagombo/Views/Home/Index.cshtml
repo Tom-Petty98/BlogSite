@@ -1,0 +1,144 @@
+﻿
+
+@model HomeViewModel
+
+@inject IOptions<BagomboSettings> _settings
+
+@{
+  ViewData["Title"] = _settings.Value.HomePageTitle;
+  Layout = "_Layout";
+
+  var host = Context.Request.Scheme + "://" + Context.Request.Host;
+}
+
+@using Bagombo.Models.ViewModels.Home
+@using Microsoft.Extensions.Options
+@using CommonMark
+
+@section opengraph {
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="@host@Context.Request.Path" />
+<meta property="og:title" content="@_settings.Value.HomePageTitle" />
+<meta property="og:description" content="@_settings.Value.Description" />
+<meta property="og:url" content="@(host + Context.Request.Path)" />
+<meta property="og:image" content="@host/images/bagombo-logo.png" />
+<meta property="og:image:width" content="256" />
+<meta property="og:image:height" content="256" />
+ 
+<meta property="twitter:url" content="@host@Context.Request.Path" />
+<meta property="twitter:title" content="@_settings.Value.HomePageTitle" />
+<meta property="twitter:description" content="@_settings.Value.Description" />
+
+}
+
+<div class="container">
+    
+    <div class="row mt-0">
+     
+      <div class="col-md-10 col-12 mt-0">
+        @if (Model.RecentPosts.PageIndex == 1 && _settings.Value.ShowBagomboDownloadLink)
+        {
+          <div class="jumbotron mb-3 pt-5 pb-5">
+            <h4><strong>Bagombo Blog Engine (alpha release)</strong></h4>
+            <div class="container p-0">
+              <div class="row">
+                <div class="col-md-9">
+                  <p>
+                    The Bagombo Blog Engine is a free ASP.NET Core based blogging engine with support for multiple authors and editing in Markdown.
+
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <a class="btn btn-primary btn-lg" href="https://github.com/tylerlrhodes/bagombo/releases" role="button">Download 0.2.5a</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+        @foreach (var bp in Model.RecentPosts)
+        {
+          <div class="card mb-3">
+            <div class="card-header">
+              <a asp-action="BlogPostBySlug" asp-route-slug="@bp.Slug">@bp.Title</a> by @bp.Author.FirstName @bp.Author.LastName on @bp.PublishOn
+              @if (bp.Comments != null)
+              {
+                <div class="float-right">@bp.Comments?.Count() Comments</div>
+              }
+            </div>
+            <div class="card-body pl-0">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 pl-4">
+                    @{
+                      var content = bp.Content.Split('\n')
+                        .Where(line => !line.Contains("<pre><code"))
+                        .Where(line => !line.Contains("</code></pre>"))
+                        .Take(_settings.Value.LinesPerPost);
+                      var contentString = string.Join('\n', content);
+                    }
+                    @Html.Raw(CommonMarkConverter.Convert(contentString))
+                    <div class="float-right"> 
+                      <a asp-action="BlogPostBySlug" asp-route-slug="@bp.Slug">Read more</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="col-md-2 col-12"> 
+        <div class="mb-2" style="font-size: 1.3rem"><a asp-controller="Meta" asp-action="feed" asp-route-type="atom">Feed <i class="fa fa-rss" aria-hidden="true"></i></a></div>
+        @if (_settings.Value.EnableTwitterLink)
+        {
+          <a href="https://twitter.com/@_settings.Value.TwitterHandle?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @@@_settings.Value.TwitterHandle</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        }
+        @if (_settings.Value.EnableFacebookLink)
+        {
+          <a href="@_settings.Value.FacebookLink"><img src="~/images/FB-FindUsonFacebook-online-100.png" /></a>
+        }
+        @if (_settings.Value.EnableGithubLinks)
+        {
+          <!-- Place this tag where you want the button to render. -->
+          <a class="github-button" href="https://github.com/@_settings.Value.GitHubUserName" data-size="small" data-show-count="true" aria-label="Follow @@@_settings.Value.GitHubUserName on GitHub">Follow @@@_settings.Value.GitHubUserName</a> <br />
+          <!-- Place this tag where you want the button to render. -->
+          <a class="github-button" href="https://github.com/@_settings.Value.GitHubUserName/@_settings.Value.GitHubRepo" data-icon="octicon-star" data-size="small" data-show-count="true" aria-label="Star @_settings.Value.GitHubUserName/@_settings.Value.GitHubRepo">Star</a> <br />
+          <!-- Place this tag where you want the button to render. -->
+          <a class="github-button" href="https://github.com/@_settings.Value.GitHubUserName/@_settings.Value.GitHubRepo/fork" data-icon="octicon-repo-forked" data-size="small" data-show-count="true" aria-label="Fork @_settings.Value.GitHubUserName/@_settings.Value.GitHubRepo on GitHub">Fork</a> <br />
+          <!-- Place this tag where you want the button to render. -->
+          <a class="github-button" href="https://github.com/@_settings.Value.GitHubUserName/@_settings.Value.GitHubRepo/issues" data-icon="octicon-issue-opened" data-size="small" data-show-count="true" aria-label="Issue @_settings.Value.GitHubUserName/@_settings.Value.GitHubRepo on GitHub">Issue</a> <br />
+        }
+        <hr />
+        <div class="mb-2" style="font-size: 1.1rem; white-space: pre-wrap">Categories</div>
+        @foreach (var category in Model.Categories)
+        {
+          <div class="mb-2" style="font-size: 1.1rem; white-space: pre-wrap"><a asp-action="CategoryPosts" asp-route-id="@category.Id">@category.Name</a></div>
+
+        }
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 col-12">
+        @{
+          var hasPrevious = Model.RecentPosts.HasPreviousPage ? "" : "disabled";
+          var hasNext = Model.RecentPosts.HasNextPage ? "" : "disabled";
+        }
+        <div class="float-right">
+          <ul class="pagination text">
+            <li class="page-item @hasPrevious"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.RecentPosts.PageIndex - 1)">Previous</a></li>
+            <li class="page-item @hasNext"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.RecentPosts.PageIndex + 1)">Next</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+@section scripts {
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+}

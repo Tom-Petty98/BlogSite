@@ -1,0 +1,56 @@
+﻿
+@using Bagombo.Models.ViewModels.Home
+@using Microsoft.Extensions.Options
+@using CommonMark
+@model CategoryPostsViewModel
+
+@inject IOptions<BagomboSettings> _settings
+
+@{
+  ViewData["Title"] = $"Posts for Category {Model.Category.Name}";
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Posts for @Model.Category.Name</h3>
+            <hr />
+        </div>
+    </div>
+    @foreach (var bp in Model.Posts)
+    {
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-3">
+            <div class="card-header">
+              <a asp-action="BlogPostBySlug" asp-route-slug="@bp.Slug">@bp.Title</a> by @bp.Author.FirstName @bp.Author.LastName on @bp.PublishOn
+              @if (bp.Comments != null)
+              {
+                <div class="float-right">@bp.Comments?.Count() Comments</div>
+              }
+            </div>
+            <div class="card-body pl-0">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 pl-4">
+                    @{
+                      var content = bp.Content.Split('\n')
+                        .Where(line => !line.Contains("<pre><code"))
+                        .Where(line => !line.Contains("</code></pre>"))
+                        .Take(_settings.Value.LinesPerPost);
+                      var contentString = string.Join('\n', content);
+                    }
+                    @Html.Raw(CommonMarkConverter.Convert(contentString))
+                    <div class="float-right">
+                      <a asp-action="BlogPostBySlug" asp-route-slug="@bp.Slug">Read more</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+</div>

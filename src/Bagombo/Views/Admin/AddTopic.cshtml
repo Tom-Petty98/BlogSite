@@ -1,0 +1,37 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+  ViewData["Title"] = "Add Topic";
+  Layout = "_Layout";
+}
+@using Bagombo.Models.ViewModels.Admin
+@model TopicViewModel
+
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="card">
+            <div class="card-headere">Add Topic:</div>
+            <div class="card-body p-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form asp-action="AddTopic" method="post">
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label class="checkbox-inline">
+                        <input asp-for="ShowOnHomePage"> Show On Home Page?
+                      </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <a asp-action="ManageTopics" class="btn btn-default">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

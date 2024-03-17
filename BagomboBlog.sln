@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1CF8ABF5-7E01-425E-AF26-41C6FB430C8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD9EE07A-4633-48CB-A62E-985D8F4F4232}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{0059EE1B-BFDD-49E5-AECC-E7939FCE48FE}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bagombo.Tests", "src\bagombo.tests\Bagombo.Tests.csproj", "{6D8EC146-AEFA-4B70-9EDE-32D0AC651D77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bagombo.Data", "src\bagombo.data\Bagombo.Data.csproj", "{1CCDF61E-2873-4BAD-ABB0-E38E3180F318}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bagombo", "src\bagombo\Bagombo.csproj", "{BD6F01B2-AE79-45A6-8484-29A979D7D492}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D8EC146-AEFA-4B70-9EDE-32D0AC651D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8EC146-AEFA-4B70-9EDE-32D0AC651D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8EC146-AEFA-4B70-9EDE-32D0AC651D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8EC146-AEFA-4B70-9EDE-32D0AC651D77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CCDF61E-2873-4BAD-ABB0-E38E3180F318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CCDF61E-2873-4BAD-ABB0-E38E3180F318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CCDF61E-2873-4BAD-ABB0-E38E3180F318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CCDF61E-2873-4BAD-ABB0-E38E3180F318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD6F01B2-AE79-45A6-8484-29A979D7D492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD6F01B2-AE79-45A6-8484-29A979D7D492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD6F01B2-AE79-45A6-8484-29A979D7D492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD6F01B2-AE79-45A6-8484-29A979D7D492}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6D8EC146-AEFA-4B70-9EDE-32D0AC651D77} = {1CF8ABF5-7E01-425E-AF26-41C6FB430C8F}
+		{1CCDF61E-2873-4BAD-ABB0-E38E3180F318} = {1CF8ABF5-7E01-425E-AF26-41C6FB430C8F}
+		{BD6F01B2-AE79-45A6-8484-29A979D7D492} = {1CF8ABF5-7E01-425E-AF26-41C6FB430C8F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,54 @@
+﻿
+@using Bagombo.Models.ViewModels.Account
+@using Microsoft.AspNetCore.Identity
+@using Bagombo.Models
+@inject SignInManager<ApplicationUser> SignInManager
+
+@model AccountLoginViewModel
+
+@{
+  ViewData["Title"] = "Login";
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="col-12 offset-md-3 col-md-6">
+        <div class="card">
+            <div class="card-header">Login:</div>
+            <div class="card-body p-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form method="post" asp-action="login" asp-controller="Account">
+                    <input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]" />
+                    <div class="form-group">
+                        <label for="Email">Email:</label>
+                        <input class="form-control" asp-for="Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Password:</label>
+                        <input type="password" class="form-control" asp-for="Password" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="RememberMe" /><label asp-for="RememberMe">Remember Me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    @{
+                      var loginProviders = await SignInManager.GetExternalAuthenticationSchemesAsync();
+                      foreach (var p in loginProviders)
+                      {
+                        if (p.DisplayName == "Twitter")
+                        {
+                            <!--a class="btn btn-default" asp-action="TwitterLogin" asp-route-returnUrl="@ViewData["returnUrl"]"><img src="~/images/twitter-button.png" /></-->
+                          <button class="btn btn-secondary" type="submit" value="Twitter Login" formaction="TwitterLogin">Login With Twitter</button>
+                        }
+                        else if (p.DisplayName == "Facebook")
+                        {
+                            <!--a class="btn btn-default" asp-action="FacebookLogin" asp-route-returnUrl="@ViewData["returnUrl"]">Login with Facebook</-->
+                          <button class="btn btn-secondary" type="submit" value="Facebook Login" formaction="FacebookLogin">Login With Facebook</button>
+                        }
+                      }
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿body {
+    padding-top: 70px;
+}
+
+/* Get rid of highlighting on navbar-brand*/
+.navbar-default .navbar-brand:hover, 
+.navbar-default .navbar-brand:focus {
+  background-color: transparent;
+  color: #777;
+  cursor:default;
+}
+
+/* Limit height of the simpleMde edit control*/
+.CodeMirror {
+    height: 600px;
+}
+
+ul.nostyle, ul.nostyle > li {
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.h600 {
+    height: 600px;
+}
+
+.label {
+    margin: 2px;
+}
+
+img {
+  max-width: 95%;
+  max-height: 95%;
+}
